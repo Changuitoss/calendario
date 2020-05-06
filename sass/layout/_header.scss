@@ -1,22 +1,24 @@
 .header {
+  border-bottom: 1px solid gray;
   grid-column: 2 / -1;
   
   &__nav {
-    margin: 0 0 1rem 13rem;
+    margin: 0 0 1.5rem 0;
 
-
-    &--anterior {
-
+    &--link {
+      text-decoration: none;
+      font-size: 1.2rem;
     }
-
-    &--siguiente {
-
+    
+    &--link:link,
+    &--link:visited {
+      color: black;
     }
 
     &--mes {
       display: inline-block;
+      margin-left: 3rem;
+      font-size: 2rem;
     }
   }
-
-
 }
