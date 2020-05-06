@@ -1,0 +1,24 @@
+{
+  "name": "calendario",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "node-sass": "^4.14.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile:sass": "node-sass sass/main.scss src/index.css -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Changuitoss/calendario.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Changuitoss/calendario/issues"
+  },
+  "homepage": "https://github.com/Changuitoss/calendario#readme"
+}

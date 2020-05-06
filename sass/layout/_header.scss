@@ -1,0 +1,22 @@
+.header {
+  grid-column: 2 / -1;
+  
+  &__nav {
+    margin: 0 0 1rem 13rem;
+
+
+    &--anterior {
+
+    }
+
+    &--siguiente {
+
+    }
+
+    &--mes {
+      display: inline-block;
+    }
+  }
+
+
+}
