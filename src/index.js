@@ -1,4 +1,4 @@
-import { creaCalendarioGrid, defaultFechaInput, setInputListeners, popularCalendario } from './ui.js';
+import { creaCalendarioGrid, defaultFechaInput, setInputListeners } from './ui.js';
 import { obtenerEventos } from './api.js';
 
 creaCalendarioGrid(undefined, defaultFechaInput());

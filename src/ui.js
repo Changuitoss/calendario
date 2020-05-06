@@ -1,3 +1,5 @@
+import { obtenerEventos } from "./api.js";
+
 export function creaCalendarioGrid(e, inicial) {
   if(!e) { //Setup inicial
     let fecha = inicial;
@@ -15,17 +17,19 @@ export function creaCalendarioGrid(e, inicial) {
 
     //Llena el calendario con los numeros de dia de hoy hacia adelante.
     const calendarioCeldas = Array.from(document.querySelectorAll('.calendario__dia')); 
+/*     console.log('calendarioCeldas: ', calendarioCeldas)
+    console.log('numeroDiaDeSemana: ', numeroDiaDeSemana) */
     for (let i = numeroDiaDeSemana; i < calendarioCeldas.length; i++) {
       calendarioCeldas[i].textContent = fecha.getDate();
       if (fecha.getDate() == 1) { //Se fija cuando pasas al proximo mes
         numeroDiaDelMes = 1
-        fecha.setDate(numeroDiaDelMes + 1)
         calendarioCeldas[i].setAttribute('data-fecha', fecha);
+        fecha.setDate(numeroDiaDelMes + 1)
         numeroDiaDelMes++
       }
       else {
-        fecha.setDate(numeroDiaDelMes + 1)
         calendarioCeldas[i].setAttribute('data-fecha', fecha);
+        fecha.setDate(numeroDiaDelMes + 1)
         numeroDiaDelMes++
       }
     }
@@ -45,7 +49,6 @@ export function creaCalendarioGrid(e, inicial) {
 
   if(e) { //Cuando se cambia la fecha del calendario
     let fecha = new Date(`${e.target.value}`);
-    console.log('e.target.value: ', e.target.value)
     const numeroDiaDeSemana = fecha.getDay();
     let numeroDiaDelMes = fecha.getDate();
     const calendarioGrid = document.querySelector('.calendario__grid');
@@ -65,11 +68,13 @@ export function creaCalendarioGrid(e, inicial) {
       calendarioCeldas[i].textContent = fecha.getDate();
       if (fecha.getDate() == 1) { //Se fija cuando pasas al proximo mes
         numeroDiaDelMes = 1
-        fecha.setDate(numeroDiaDelMes + 1)
+        calendarioCeldas[i].setAttribute('data-fecha', fecha);
+        fecha.setDate(numeroDiaDelMes + 1);
         numeroDiaDelMes++
       }
       else {
-        fecha.setDate(numeroDiaDelMes + 1)
+        calendarioCeldas[i].setAttribute('data-fecha', fecha);
+        fecha.setDate(numeroDiaDelMes + 1);
         numeroDiaDelMes++
       }
     }
@@ -81,9 +86,14 @@ export function creaCalendarioGrid(e, inicial) {
     for (let i = numeroDiaDeSemana - 1; i >= 0; i--) {
       calendarioCeldas[i].textContent = fecha.getDate() - 1;
       fecha.setDate(numeroDiaDelMes - 1)
+      calendarioCeldas[i].setAttribute('data-fecha', fecha);
       numeroDiaDelMes--
     }
+
+    obtenerEventos();
   }
+
+
 }
 
 export function defaultFechaInput() {
@@ -118,20 +128,22 @@ export function setInputListeners() {
 export function popularCalendario(eventos) {
   const celdasArr = Array.from(document.querySelectorAll('.calendario__dia'));
   const datesArr = celdasArr.map((celda) => new Date(celda.dataset.fecha).getTime());
-  const eventorArr = [];
+
+  console.log('celdasArr: ', celdasArr)
+  //console.log('datesArr: ', datesArr)
 
   eventos.forEach((evento) => {
-      const inicio = new Date(evento.start);
-      const inicioSinHora = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate()).getTime();
-      const index = datesArr.indexOf(inicioSinHora);
-      
-      if (index !== -1) {
-        const titulo = evento.summary;
-        const eventosUl = document.createElement('ul');
-        const eventosItem = document.createElement('li');
-        eventosItem.textContent = titulo;
-        celdasArr[index].appendChild(eventosUl);
-        eventosUl.appendChild(eventosItem);
-      }
-    })
+    const inicio = new Date(evento.start);
+    const inicioSinHora = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate()).getTime();
+    const index = datesArr.indexOf(inicioSinHora);
+    
+    if (index !== -1) {
+      const titulo = evento.summary;
+      const eventosUl = document.createElement('ul');
+      const eventosItem = document.createElement('li');
+      eventosItem.textContent = titulo;
+      celdasArr[index].appendChild(eventosUl);
+      eventosUl.appendChild(eventosItem);
+    }
+  })
 }
