@@ -49,6 +49,8 @@ export function creaCalendarioGrid(e, inicial) {
 
   if(e) { //Cuando se cambia la fecha del calendario
     let fecha = new Date(`${e.target.value}`);
+    console.log('fecha: ', fecha)
+    console.log('e.target.value: ', e.target.value)
     const numeroDiaDeSemana = fecha.getDay();
     let numeroDiaDelMes = fecha.getDate();
     const calendarioGrid = document.querySelector('.calendario__grid');
@@ -125,17 +127,15 @@ export function setInputListeners() {
   dateInput.addEventListener('change', creaCalendarioGrid);
 } 
 
-export function popularCalendario(eventos) {
+export function popularCalendario(eventos) { //Los arrays "sinHora" son para standarizar la comparacion con los dates de los eventos en milisegundos.
   const celdasArr = Array.from(document.querySelectorAll('.calendario__dia'));
-  const datesArr = celdasArr.map((celda) => new Date(celda.dataset.fecha).getTime());
-
-  console.log('celdasArr: ', celdasArr)
-  //console.log('datesArr: ', datesArr)
+  const datesArr = celdasArr.map((celda) => new Date(celda.dataset.fecha));
+  const datesArrSinHora = datesArr.map((date) => new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()); 
 
   eventos.forEach((evento) => {
     const inicio = new Date(evento.start);
     const inicioSinHora = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate()).getTime();
-    const index = datesArr.indexOf(inicioSinHora);
+    const index = datesArrSinHora.indexOf(inicioSinHora);
     
     if (index !== -1) {
       const titulo = evento.summary;
