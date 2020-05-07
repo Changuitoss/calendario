@@ -29,10 +29,31 @@
       <div class="calendario__grid">
         <!--  -->
       </div>
+    </div>
+
+    <div class="agregar"  id="agregar">
+      <div class="agregar__content">
+        <h3 class="agregar__titulo">Agregar evento</h3>
+        <form action="" class="agregar__form">
+
+          <label for="nombre" class="agregar__form--label">Evento:</label>
+          <input type="text" class="agregar__form--nombre" id="nombre" name="nombre">
+
+          <label for="inicio" class="agregar__form--label">Desde</label>
+          <input type="time" class="agregar__form--inicio" id="inicio" name="inicio">
+
+          <label for="final" class="agregar__form--label">Hasta</label>
+          <input type="time" class="agregar__form--final" id="final" name="final">
+          <div class="agregar__descripcion">
+            <label for="descripcion" class="agregar__form--label">Descripcion:</label>
+            <input type="text" class="agregar__form--descripcion" id="descripcion" name="descripcion">
+          </div>
+
+        </form>
       </div>
     </div>
   </div>
-  
+
   <script src="./src/index.js" type="module"></script>
 </body>
 </html>

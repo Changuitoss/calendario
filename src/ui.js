@@ -17,10 +17,15 @@ export function creaCalendarioGrid(e, inicial) {
 
     //Llena el calendario con los numeros de dia de hoy hacia adelante.
     const calendarioCeldas = Array.from(document.querySelectorAll('.calendario__dia')); 
-/*     console.log('calendarioCeldas: ', calendarioCeldas)
-    console.log('numeroDiaDeSemana: ', numeroDiaDeSemana) */
+
     for (let i = numeroDiaDeSemana; i < calendarioCeldas.length; i++) {
       calendarioCeldas[i].textContent = fecha.getDate();
+      const agregar = document.createElement('a');
+      agregar.classList.add('calendario__agregar');
+      agregar.setAttribute('href', '#agregar')
+      agregar.textContent = '+';
+      calendarioCeldas[i].appendChild(agregar);
+
       if (fecha.getDate() == 1) { //Se fija cuando pasas al proximo mes
         numeroDiaDelMes = 1
         calendarioCeldas[i].setAttribute('data-fecha', fecha);
@@ -41,6 +46,12 @@ export function creaCalendarioGrid(e, inicial) {
 
     for (let i = numeroDiaDeSemana - 1; i >= 0; i--) {
       calendarioCeldas[i].textContent = fecha.getDate() - 1;
+      const agregar = document.createElement('a');
+      agregar.classList.add('calendario__agregar');
+      agregar.setAttribute('href', '#agregar')
+      agregar.textContent = '+';
+      calendarioCeldas[i].appendChild(agregar);
+
       fecha.setDate(numeroDiaDelMes - 1)
       calendarioCeldas[i].setAttribute('data-fecha', fecha);
       numeroDiaDelMes--
@@ -49,8 +60,6 @@ export function creaCalendarioGrid(e, inicial) {
 
   if(e) { //Cuando se cambia la fecha del calendario
     let fecha = new Date(`${e.target.value}`);
-    console.log('fecha: ', fecha)
-    console.log('e.target.value: ', e.target.value)
     const numeroDiaDeSemana = fecha.getDay();
     let numeroDiaDelMes = fecha.getDate();
     const calendarioGrid = document.querySelector('.calendario__grid');
@@ -94,8 +103,6 @@ export function creaCalendarioGrid(e, inicial) {
 
     obtenerEventos();
   }
-
-
 }
 
 export function defaultFechaInput() {
@@ -106,7 +113,6 @@ export function defaultFechaInput() {
   const hoyDia = hoy.getDate();
   const hoyFecha = `${hoyAnio}-0${hoyDia}-0${hoyMes}`;
   const hoyFull = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate())
-
 
   dateInput.setAttribute('value', hoyFecha);
 
@@ -127,7 +133,7 @@ export function setInputListeners() {
   dateInput.addEventListener('change', creaCalendarioGrid);
 } 
 
-export function popularCalendario(eventos) { //Los arrays "sinHora" son para standarizar la comparacion con los dates de los eventos en milisegundos.
+export function popularCalendario(eventos) { //Los arrays "sinHora" son para standarizar en milisegundos los dates de eventos y dataset.fecha.
   const celdasArr = Array.from(document.querySelectorAll('.calendario__dia'));
   const datesArr = celdasArr.map((celda) => new Date(celda.dataset.fecha));
   const datesArrSinHora = datesArr.map((date) => new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()); 
@@ -140,7 +146,9 @@ export function popularCalendario(eventos) { //Los arrays "sinHora" son para sta
     if (index !== -1) {
       const titulo = evento.summary;
       const eventosUl = document.createElement('ul');
+      eventosUl.classList.add('calendario__lista');
       const eventosItem = document.createElement('li');
+      eventosItem.classList.add('calendario__item');
       eventosItem.textContent = titulo;
       celdasArr[index].appendChild(eventosUl);
       eventosUl.appendChild(eventosItem);
