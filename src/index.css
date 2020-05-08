@@ -131,3 +131,7 @@ body {
       margin-top: 1.5rem; }
     .agregar__form--label:not(:first-of-type) {
       margin-left: 1.5rem; }
+    .agregar__form--descripcion {
+      display: block;
+      width: 80%;
+      height: 7rem; }

@@ -50,5 +50,13 @@
     &--label:not(:first-of-type) {
       margin-left: 1.5rem;
     }
+
+    &--descripcion {
+      display: block;
+      width: 80%;
+      height: 7rem;
+    }
+
+
   }
 }

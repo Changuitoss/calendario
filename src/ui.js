@@ -1,4 +1,5 @@
 import { obtenerEventos } from "./api.js";
+import { obtenerDateAgregarEvento } from './servicios.js';
 
 export function creaCalendarioGrid(e, inicial) {
   if(!e) { //Setup inicial
@@ -77,6 +78,12 @@ export function creaCalendarioGrid(e, inicial) {
     const calendarioCeldas = Array.from(document.querySelectorAll('.calendario__dia')); 
     for (let i = numeroDiaDeSemana; i < calendarioCeldas.length; i++) {
       calendarioCeldas[i].textContent = fecha.getDate();
+      const agregar = document.createElement('a');
+      agregar.classList.add('calendario__agregar');
+      agregar.setAttribute('href', '#agregar')
+      agregar.textContent = '+';
+      calendarioCeldas[i].appendChild(agregar);
+
       if (fecha.getDate() == 1) { //Se fija cuando pasas al proximo mes
         numeroDiaDelMes = 1
         calendarioCeldas[i].setAttribute('data-fecha', fecha);
@@ -96,6 +103,11 @@ export function creaCalendarioGrid(e, inicial) {
 
     for (let i = numeroDiaDeSemana - 1; i >= 0; i--) {
       calendarioCeldas[i].textContent = fecha.getDate() - 1;
+      const agregar = document.createElement('a');
+      agregar.classList.add('calendario__agregar');
+      agregar.setAttribute('href', '#agregar')
+      agregar.textContent = '+';
+      calendarioCeldas[i].appendChild(agregar);
       fecha.setDate(numeroDiaDelMes - 1)
       calendarioCeldas[i].setAttribute('data-fecha', fecha);
       numeroDiaDelMes--
@@ -103,6 +115,7 @@ export function creaCalendarioGrid(e, inicial) {
 
     obtenerEventos();
   }
+  listenerAgregaEvento();
 }
 
 export function defaultFechaInput() {
@@ -155,3 +168,64 @@ export function popularCalendario(eventos) { //Los arrays "sinHora" son para sta
     }
   })
 }
+
+export function agregarEventoHandler(e) {
+  e.preventDefault();
+  const hoy = new Date()
+  const nombre = e.target.nombre.value;
+  const descripcion = e.target.descripcion.value;
+  const inicio = new Date(e.target.inicio.value);
+  const final = new Date(e.target.final.value);
+  const data = {
+    "id": 1,
+    "created": "2020-04-26T22:39:50.984Z",
+    "updated": "2020-04-26T22:39:50.984Z",
+    "summary": nombre,
+    "description": descripcion,
+    "color": "#F00",
+    "creator": {
+      "id": 1,
+      "email": "test@test.com",
+      "displayName": "Test Test",
+      "self": true
+    },
+    "start": inicio,
+    "end": final,
+    "attendees": [
+      {
+        "id": 1,
+        "email": "test@test.com",
+        "displayName": "Test Test",
+        "organizer": true,
+        "self": true,
+        "responseStatus": true
+      },
+      {
+        "id": 2,
+        "email": "test2@test.com",
+        "displayName": "Test2 Test",
+        "organizer": false,
+        "self": false,
+        "responseStatus": false
+      },
+      {
+        "id": 3,
+        "email": "test3@test.com",
+        "displayName": "Test3 Test",
+        "organizer": false,
+        "self": false,
+        "responseStatus": null
+      }
+    ]
+  }
+
+  console.log(data);
+}
+
+export function listenerAgregaEvento() {
+  const agregarBtn = document.querySelectorAll('.calendario__agregar');
+  agregarBtn.forEach((btn) => btn.addEventListener('click', obtenerDateAgregarEvento)); 
+}
+
+const submitBtn = document.querySelector('.agregar__form');
+submitBtn.addEventListener('submit', agregarEventoHandler);
