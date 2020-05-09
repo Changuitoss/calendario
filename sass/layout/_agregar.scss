@@ -43,6 +43,10 @@
   &__form {
     margin-top: 1.5rem;
 
+    &--inicio-fecha {
+      display: none;
+    }
+
     &--label {
       margin-top: 1.5rem;
     }

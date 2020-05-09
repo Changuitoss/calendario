@@ -127,6 +127,8 @@ body {
     transition: all .3s; }
   .agregar__form {
     margin-top: 1.5rem; }
+    .agregar__form--inicio-fecha {
+      display: none; }
     .agregar__form--label {
       margin-top: 1.5rem; }
     .agregar__form--label:not(:first-of-type) {

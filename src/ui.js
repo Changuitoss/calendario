@@ -1,5 +1,5 @@
 import { obtenerEventos } from "./api.js";
-import { obtenerDateAgregarEvento } from './servicios.js';
+import { obtenerDateAgregarEvento, pad } from './servicios.js';
 
 export function creaCalendarioGrid(e, inicial) {
   if(!e) { //Setup inicial
@@ -171,26 +171,40 @@ export function popularCalendario(eventos) { //Los arrays "sinHora" son para sta
 
 export function agregarEventoHandler(e) {
   e.preventDefault();
-  const hoy = new Date()
+  const hoy = new Date().toISOString()
   const nombre = e.target.nombre.value;
   const descripcion = e.target.descripcion.value;
-  const inicio = new Date(e.target.inicio.value);
-  const final = new Date(e.target.final.value);
+
+  const inicioFecha = e.target.iniciofecha.value;
+  const inicioHorario = e.target.inicio.value;
+  const inicioFinal = new Date(`${inicioFecha}T${inicioHorario}`).toISOString();
+
+  const finalFecha = new Date(e.target.finalfecha.value);
+  const finalHorario = e.target.finalhora.value;
+  const finalHora = finalHorario.split(':')[0];
+  const finalMinutos = finalHorario.split(':')[1];
+  const finalFinal = new Date(finalFecha.getFullYear(), 
+                              pad(finalFecha.getMonth()), 
+                              pad(finalFecha.getDate()),
+                              finalHora, 
+                              finalMinutos).toISOString();
+  
+
   const data = {
     "id": 1,
-    "created": "2020-04-26T22:39:50.984Z",
-    "updated": "2020-04-26T22:39:50.984Z",
+    "created": hoy,
+    "updated": hoy,
     "summary": nombre,
     "description": descripcion,
     "color": "#F00",
-    "creator": {
+    "creator": {  
       "id": 1,
       "email": "test@test.com",
       "displayName": "Test Test",
       "self": true
     },
-    "start": inicio,
-    "end": final,
+    "start": inicioFinal,
+    "end": finalFinal,
     "attendees": [
       {
         "id": 1,

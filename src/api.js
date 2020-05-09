@@ -11,7 +11,7 @@ export function obtenerEventos() {
     });
 }
 
-export function postEventoNuevo(nombre, inicio, final, descripcion) {
+export function postEventoNuevo(data) {
   const url = './src/data/index.json';
 
   fetch(url, {

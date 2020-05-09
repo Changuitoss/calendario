@@ -3,18 +3,18 @@ export function obtenerDateAgregarEvento(e) {
   const anio = fechaSeleccionada.getFullYear();
   const mes = fechaSeleccionada.getMonth() + 1;
   const dia = fechaSeleccionada.getDate();
-  let fechaValue;
+  let fechaValue = `${anio}-${pad(mes)}-${pad(dia)}`;
 
-  if(mes > 9) {
-    fechaValue = `${anio}-${mes}-${dia}`;
-  } else {
-    fechaValue = `${anio}-0${mes}-${dia}`;
-  }
+  const inicia = document.querySelector('.agregar__form--inicio-fecha');
+  inicia.setAttribute('value', fechaValue); // Meto este value para usarlo al enviar el evento, esta hidden.
 
   const finaliza = document.querySelector('.agregar__form--final-fecha');
   finaliza.setAttribute('value', fechaValue);
-  console.log(fechaValue)
 
-  return fechaSeleccionada;
+  return fechaSeleccionada
+}
+
+export function pad(n) { 
+  return n < 10 ? '0' + n : n;
 }
 
