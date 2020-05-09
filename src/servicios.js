@@ -1,4 +1,5 @@
 export function obtenerDateAgregarEvento(e) {
+  clearEvento()
   const fechaSeleccionada = new Date(e.target.parentElement.dataset.fecha);
   const anio = fechaSeleccionada.getFullYear();
   const mes = fechaSeleccionada.getMonth() + 1;
@@ -16,5 +17,13 @@ export function obtenerDateAgregarEvento(e) {
 
 export function pad(n) { 
   return n < 10 ? '0' + n : n;
+}
+
+function clearEvento() {
+  const eventoInputs = document.querySelectorAll(`.agregar__form--nombre, 
+                                                  .agregar__form--inicio, 
+                                                  .agregar__form--final-hora, 
+                                                  .agregar__form--descripcion`);
+  eventoInputs.forEach((evento) => evento.value = '');                                  
 }
 

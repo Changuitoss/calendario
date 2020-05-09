@@ -1,4 +1,4 @@
-import { obtenerEventos } from "./api.js";
+import { obtenerEventos, postEventoNuevo } from "./api.js";
 import { obtenerDateAgregarEvento, pad } from './servicios.js';
 
 export function creaCalendarioGrid(e, inicial) {
@@ -189,9 +189,8 @@ export function agregarEventoHandler(e) {
                               finalHora, 
                               finalMinutos).toISOString();
   
-
   const data = {
-    "id": 1,
+    
     "created": hoy,
     "updated": hoy,
     "summary": nombre,
@@ -233,7 +232,7 @@ export function agregarEventoHandler(e) {
     ]
   }
 
-  console.log(data);
+  postEventoNuevo(data);
 }
 
 export function listenerAgregaEvento() {

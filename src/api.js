@@ -14,12 +14,14 @@ export function obtenerEventos() {
 export function postEventoNuevo(data) {
   const url = './src/data/index.json';
 
+  console.log(JSON.stringify(data))
+  console.log('fetcheando')
   fetch(url, {
     method: 'POST',
-    headers: {
-      'Content Type': 'application/json',
-    },
     body: JSON.stringify(data),
+    headers: {
+      'Content-type': 'application/json'
+    }
   })
   .then(response => response.json())
   .then(data => console.log('Succes: ', data));
