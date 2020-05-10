@@ -37,21 +37,46 @@
         <form class="agregar__form">
 
           <label for="nombre" class="agregar__form--label">Evento:</label>
-          <input type="text" class="agregar__form--nombre" id="nombre" name="nombre">
+          <input type="text" class="agregar__form--nombre" id="nombre" name="nombre" required>
 
           <label for="inicio" class="agregar__form--label">Desde</label>
           <input type="date" class="agregar__form--inicio-fecha" id="iniciofecha" name="iniciofecha">
-          <input type="time" class="agregar__form--inicio" id="inicio" name="inicio">
+          <input type="time" class="agregar__form--inicio" id="inicio" name="inicio" required>
 
           <label for="final" class="agregar__form--label">Hasta</label>
-          <input type="date" class="agregar__form--final-fecha" id="finalfecha" name="finalfecha">
-          <input type="time" class="agregar__form--final-hora" id="final-hora" name="finalhora">
+          <input type="date" class="agregar__form--final-fecha" id="finalfecha" name="finalfecha" required>
+          <input type="time" class="agregar__form--final-hora" id="final-hora" name="finalhora" required>
           <div class="agregar__descripcion--block">
             <label for="descripcion" class="agregar__form--label">Descripcion:</label>
             <textarea type="text" class="agregar__form--descripcion" id="descripcion" name="descripcion"></textarea>
           </div>
-          <button type="submit" class="agregar__boton--cancelar">Agregar</button>
+          <button href="#top" type="submit" class="agregar__boton--cancelar">Agregar</button>
           <a href="#top" class="agregar__boton--cancelar">Cancelar</a>
+        </form>
+      </div>
+    </div>
+
+    <div class="editar"  id="editar">
+      <div class="editar__content">
+        <h3 class="editar__titulo">editar evento</h3>
+        <form class="editar__form">
+
+          <label for="nombre" class="editar__form--label">Evento:</label>
+          <input type="text" class="editar__form--nombre" id="nombre" name="nombre" required>
+
+          <label for="inicio" class="editar__form--label">Desde</label>
+          <input type="date" class="editar__form--inicio-fecha" id="iniciofecha" name="iniciofecha">
+          <input type="time" class="editar__form--inicio" id="inicio" name="inicio" required>
+
+          <label for="final" class="editar__form--label">Hasta</label>
+          <input type="date" class="editar__form--final-fecha" id="finalfecha" name="finalfecha" required>
+          <input type="time" class="editar__form--final-hora" id="final-hora" name="finalhora" required>
+          <div class="editar__descripcion--block">
+            <label for="descripcion" class="editar__form--label">Descripcion:</label>
+            <textarea type="text" class="editar__form--descripcion" id="descripcion" name="descripcion"></textarea>
+          </div>
+          <button href="#top" type="submit" class="editar__boton--cancelar">editar</button>
+          <a href="#top" class="editar__boton--cancelar">Cancelar</a>
         </form>
       </div>
     </div>
