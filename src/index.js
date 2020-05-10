@@ -1,9 +1,9 @@
 import { creaCalendarioGrid, defaultFechaInput, setInputListeners, listenerAgregaEvento } from './ui.js';
-import { obtenerEventos } from './api.js';
+import { obtenerKeysEventos } from './api.js';
 
 creaCalendarioGrid(undefined, defaultFechaInput());
 setInputListeners();
-obtenerEventos();
+obtenerKeysEventos();
 
 /* function guardarEnLocalStorage() {
   const data = JSON.stringify(base);

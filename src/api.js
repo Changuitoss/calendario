@@ -1,7 +1,7 @@
 import { popularCalendario } from './ui.js';
 
 
-export function obtenerEventos() {  
+export function obtenerKeysEventos() {  
   const eventosProgramados = Object.keys(localStorage);
 
   popularCalendario(eventosProgramados)
@@ -19,5 +19,11 @@ export function postEventoNuevo(data) {
     localStorage.setItem(`Evento-${id}`, JSON.stringify(data));
   } 
   
-  obtenerEventos();
+  obtenerKeysEventos();
+}
+
+export function obtenerEventoParticular(key) {
+  const evento = JSON.parse(localStorage.getItem(key));
+
+  return evento;
 }

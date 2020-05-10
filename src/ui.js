@@ -1,4 +1,4 @@
-import { obtenerEventos, postEventoNuevo } from "./api.js";
+import { obtenerKeysEventos, postEventoNuevo, obtenerEventoParticular } from "./api.js";
 import { obtenerDateAgregarEvento, pad } from './servicios.js';
 
 export function creaCalendarioGrid(e, inicial) {
@@ -125,7 +125,7 @@ export function creaCalendarioGrid(e, inicial) {
       numeroDiaDelMes--
     }
 
-    obtenerEventos();
+    //obtenerEventos();
   }
   listenerAgregaEvento();
 }
@@ -177,9 +177,15 @@ export function popularCalendario(eventos) { //Los arrays "sinHora" son para sta
       const titulo = evento.summary;
       const eventosItem = document.createElement('li');
       eventosItem.classList.add('calendario__item');
-      eventosItem.setAttribute('data-key', entrada)
-      eventosItem.textContent = titulo;
+      const itemLink = document.createElement('a');
+      itemLink.classList.add('calendario__item--link');
+      itemLink.textContent = titulo;
+      itemLink.setAttribute('data-key', entrada)
+      itemLink.setAttribute('href', '#editar')
+      eventosItem.appendChild(itemLink);
       eventosUl.appendChild(eventosItem);
+
+      itemLink.addEventListener('click', editarEventoHandler); 
     }
   })
 }
@@ -256,5 +262,44 @@ export function listenerAgregaEvento() {
   agregarBtn.forEach((btn) => btn.addEventListener('click', obtenerDateAgregarEvento)); 
 }
 
+function editarEventoHandler(e) {
+  const eventoKey = e.target.dataset.key;
+  const evento = obtenerEventoParticular(eventoKey);
+  const { summary: titulo, start: inicio, end: final, description: descripcion  } = evento;
+  
+  const tituloInput = document.querySelector('.editar__form--nombre');
+  const inicioInput = document.querySelector('.editar__form--inicio');
+  const inicioValue = new Date(inicio);
+  const inicioHora = `${pad(inicioValue.getHours())}:${pad(inicioValue.getMinutes())}`
+  const finFechaInput = document.querySelector('.editar__form--final-fecha');
+  const finValue = new Date(final);
+  const finFecha = `${finValue.getFullYear()}-${pad(finValue.getMonth())}-${pad(finValue.getDate())}`;
+  const finHoraInput = document.querySelector('.editar__form--final-hora');
+  const finHora = `${pad(finValue.getHours())}:${pad(finValue.getMinutes())}`;
+  const descripcionInput = document.querySelector('.editar__form--descripcion');
+
+  tituloInput.value = titulo;
+  inicioInput.value = inicioHora;
+  finFechaInput.value = finFecha;
+  finHoraInput.value = finHora;
+  descripcionInput.value = descripcion;
+
+  agregaListenersEditar(eventoKey);
+}
+
+function eliminarHandler(e) {
+  const eventoKey = e.target.dataset.key;
+  localStorage.removeItem(eventoKey);
+  obtenerKeysEventos()
+  //console.log(e.target.dataset.key)
+}
+
+function agregaListenersEditar(eventoKey) {
+  const eliminarBtn = document.querySelector('.editar__boton--eliminar');
+  eliminarBtn.setAttribute('data-key', eventoKey)
+  eliminarBtn.addEventListener('click', eliminarHandler)
+}
+
 const submitBtn = document.querySelector('.agregar__form');
 submitBtn.addEventListener('submit', agregarEventoHandler);
+
