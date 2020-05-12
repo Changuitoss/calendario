@@ -14,6 +14,8 @@
       </div>
     </div>
     <div class="input">
+      <label class="input__usuario-label" for="usuario">Nombre de usuario</label>
+      <input class="input__usuario" type="text" id="usuario">
       <input type="date" class="input__calendario">
     </div>
     <div class="calendario">
@@ -67,19 +69,27 @@
           <label for="inicio" class="editar__form--label">Desde</label>
           <input type="date" class="editar__form--inicio-fecha" id="iniciofecha" name="iniciofecha">
           <input type="time" class="editar__form--inicio" id="inicio" name="inicio" required>
+          <div>
+            <label for="final" class="editar__form--label">Hasta</label>
+            <input type="date" class="editar__form--final-fecha" id="finalfecha" name="finalfecha" required>
+            <input type="time" class="editar__form--final-hora" id="final-hora" name="finalhora" required>
+          </div>
 
-          <label for="final" class="editar__form--label">Hasta</label>
-          <input type="date" class="editar__form--final-fecha" id="finalfecha" name="finalfecha" required>
-          <input type="time" class="editar__form--final-hora" id="final-hora" name="finalhora" required>
           <div class="editar__descripcion--block">
             <label for="descripcion" class="editar__form--label">Descripcion:</label>
             <textarea type="text" class="editar__form--descripcion" id="descripcion" name="descripcion"></textarea>
           </div>
-          <button href="#top" type="submit" class="editar__boton--cancelar">Aceptar</button>
-          <a href="#" class="editar__boton--cancelar">Participar</a>
+          <button href="#top" type="submit" class="editar__boton--aceptar">Aceptar</button>
+          <a href="#" class="editar__boton--participar">Participar</a>
           <a href="#" class="editar__boton--eliminar">Eliminar</a>
           <a href="#top" class="editar__boton--cancelar">Cancelar</a>
         </form>
+        <div class="editar__participantes">
+          <h4 class="editar__participantes--titulo">Participantes</h3>
+          <div class="editar__participantes-lista">
+            <!--  -->
+          </div>
+        </div>
       </div>
     </div>
   </div>

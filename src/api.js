@@ -22,8 +22,26 @@ export function postEventoNuevo(data) {
   obtenerKeysEventos();
 }
 
+export function postNuevoParticipante(eventoKey, usuario) {
+  const evento = JSON.parse(localStorage.getItem(eventoKey));
+  const participantesArray = evento.attendees;
+
+  const participante = {
+    "id": 1,
+    "email": "test@test.com",
+    "displayName": usuario,
+    "organizer": false,
+    "self": true,
+    "responseStatus": true
+  } 
+
+  participantesArray.push(participante);
+  evento.attendees = participantesArray;
+  localStorage.setItem(eventoKey, JSON.stringify(evento));
+}
+
 export function obtenerEventoParticular(key) {
   const evento = JSON.parse(localStorage.getItem(key));
-
+  console.log(evento)
   return evento;
 }

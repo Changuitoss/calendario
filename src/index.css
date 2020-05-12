@@ -97,6 +97,7 @@ body {
     opacity: 1;
     transform: translate(-35%, -50%) scale(1); }
   .editar__content {
+    display: grid;
     font-size: 1.1rem;
     width: 60%;
     height: 50%;
@@ -109,9 +110,11 @@ body {
     left: 50%;
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.5);
-    transition: all .3s; }
+    transition: all .3s;
+    grid-template-columns: 4fr 1fr; }
   .editar__form {
-    margin-top: 1.5rem; }
+    margin-top: 1.5rem;
+    grid-column: 1 / 2; }
     .editar__form--inicio-fecha {
       display: none; }
     .editar__form--label {

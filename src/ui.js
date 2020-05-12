@@ -1,4 +1,4 @@
-import { obtenerKeysEventos, postEventoNuevo, obtenerEventoParticular } from "./api.js";
+import { obtenerKeysEventos, postEventoNuevo, postNuevoParticipante, obtenerEventoParticular } from "./api.js";
 import { obtenerDateAgregarEvento, pad } from './servicios.js';
 
 export function creaCalendarioGrid(e, inicial) {
@@ -136,7 +136,7 @@ export function defaultFechaInput() {
   const hoyAnio = hoy.getFullYear();
   const hoyMes = hoy.getMonth() + 1;
   const hoyDia = hoy.getDate();
-  const hoyFecha = `${hoyAnio}-0${hoyDia}-0${hoyMes}`;
+  const hoyFecha = `${hoyAnio}-0${pad(hoyDia)}-0${pad(hoyMes)}`;
   const hoyFull = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate())
 
   dateInput.setAttribute('value', hoyFecha);
@@ -193,6 +193,7 @@ export function popularCalendario(eventos) { //Los arrays "sinHora" son para sta
 export function agregarEventoHandler(e) {
   e.preventDefault();
   window.location = '#top';
+  const usuario = document.querySelector('.input__usuario').value;
   const hoy = new Date().toISOString()
   const nombre = e.target.nombre.value;
   const descripcion = e.target.descripcion.value;
@@ -221,7 +222,7 @@ export function agregarEventoHandler(e) {
     "creator": {  
       "id": 1,
       "email": "test@test.com",
-      "displayName": "Test Test",
+      "displayName": usuario,
       "self": true
     },
     "start": inicioFinal,
@@ -230,7 +231,7 @@ export function agregarEventoHandler(e) {
       {
         "id": 1,
         "email": "test@test.com",
-        "displayName": "Test Test",
+        "displayName": usuario,
         "organizer": true,
         "self": true,
         "responseStatus": true
@@ -265,7 +266,14 @@ export function listenerAgregaEvento() {
 function editarEventoHandler(e) {
   const eventoKey = e.target.dataset.key;
   const evento = obtenerEventoParticular(eventoKey);
-  const { summary: titulo, start: inicio, end: final, description: descripcion  } = evento;
+  const usuario = document.querySelector('.input__usuario').value;
+
+  const { summary: titulo, 
+          start: inicio, 
+          end: final, 
+          description: descripcion, 
+          attendees: participantes  } = evento;
+  const creador = evento.creator.displayName;
   
   const tituloInput = document.querySelector('.editar__form--nombre');
   const inicioInput = document.querySelector('.editar__form--inicio');
@@ -277,12 +285,45 @@ function editarEventoHandler(e) {
   const finHoraInput = document.querySelector('.editar__form--final-hora');
   const finHora = `${pad(finValue.getHours())}:${pad(finValue.getMinutes())}`;
   const descripcionInput = document.querySelector('.editar__form--descripcion');
+  const participantesDOM = document.querySelector('.editar__participantes-lista')
+  participantesDOM.innerHTML = '';
 
+  const aceptarBtn = document.querySelector('.editar__boton--aceptar');
+  const participarBtn = document.querySelector('.editar__boton--participar');
+  const eliminarBtn = document.querySelector('.editar__boton--eliminar');
+  
   tituloInput.value = titulo;
   inicioInput.value = inicioHora;
   finFechaInput.value = finFecha;
   finHoraInput.value = finHora;
   descripcionInput.value = descripcion;
+
+  participantes.forEach((participante) => {
+    const participanteNombre = participante.displayName;
+    const pParticipante = document.createElement('p');
+    pParticipante.textContent = participanteNombre;
+    participantesDOM.appendChild(pParticipante);
+  });
+
+  if(usuario !== creador) {
+    eliminarBtn.style.display = 'none';
+    aceptarBtn.style.display = 'none';
+    participarBtn.style.display = 'inline-block';
+    tituloInput.setAttribute('disabled', true);
+    inicioInput.setAttribute('disabled', true);
+    finFechaInput.setAttribute('disabled', true);
+    finHoraInput.setAttribute('disabled', true);
+    descripcionInput.setAttribute('disabled', true);
+  } else {
+    participarBtn.style.display = 'none';
+    eliminarBtn.style.display = 'inline-block';
+    aceptarBtn.style.display = 'inline-block';
+    tituloInput.removeAttribute('disabled');
+    inicioInput.removeAttribute('disabled');
+    finFechaInput.removeAttribute('disabled');
+    finHoraInput.removeAttribute('disabled');
+    descripcionInput.removeAttribute('disabled');
+  }
 
   agregaListenersEditar(eventoKey);
 }
@@ -291,13 +332,23 @@ function eliminarHandler(e) {
   const eventoKey = e.target.dataset.key;
   localStorage.removeItem(eventoKey);
   obtenerKeysEventos()
-  //console.log(e.target.dataset.key)
+}
+
+function participarHandler(e) {
+  const eventoKey = e.target.dataset.key;
+  const usuario = document.querySelector('.input__usuario').value;
+
+  postNuevoParticipante(eventoKey, usuario);
 }
 
 function agregaListenersEditar(eventoKey) {
   const eliminarBtn = document.querySelector('.editar__boton--eliminar');
-  eliminarBtn.setAttribute('data-key', eventoKey)
-  eliminarBtn.addEventListener('click', eliminarHandler)
+  eliminarBtn.setAttribute('data-key', eventoKey);
+  eliminarBtn.addEventListener('click', eliminarHandler);
+  
+  const participarBtn = document.querySelector('.editar__boton--participar');
+  participarBtn.setAttribute('data-key', eventoKey);
+  participarBtn.addEventListener('click', participarHandler);
 }
 
 const submitBtn = document.querySelector('.agregar__form');
