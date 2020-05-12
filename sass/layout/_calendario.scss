@@ -67,8 +67,14 @@
     text-align: left;
     margin: .5rem 0 0 .5rem;
   }
-/* 
-  &__item {
 
-  } */
+  &__item--link:link,
+  &__item--link:visited {
+    text-decoration: none;
+    color: black;
+  } 
+
+  &__item--link:hover {
+    color: gray;
+  } 
 }

@@ -7,7 +7,7 @@
   z-index: 100;
   opacity: 0;
   visibility: hidden;
-  transition: all .5s;
+  transition: all .1s;
 
   &:target {
     opacity: 1;
@@ -38,10 +38,6 @@
     grid-template-columns: 4fr 1fr;
   }
 
-  &__titulo {
-
-  }
-
   &__form {
     margin-top: 1.5rem;
     grid-column: 1 / 2;
@@ -63,7 +59,39 @@
       width: 80%;
       height: 7rem;
     }
+  }
 
+  &__boton:link,
+  &__boton:visited {
+    text-decoration: none;
+    color: black;
+  }
 
+  &__boton:hover {
+    color: gray;
+  }
+
+  &__boton {
+    margin: 1rem 0 0 .5rem;
+
+    &--aceptar {
+      font-family: 'Segoe UI';
+      font-size: 1.1rem;
+      border: none;
+      background-color: white;
+      cursor: pointer;
+    }
+
+    &--noparticipar:hover {
+      color: red;
+    }
+
+    &--eliminar:hover {
+      color: red;
+    }
+
+    &--participar:hover {
+      color: green;
+    }
   }
 }

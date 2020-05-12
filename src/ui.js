@@ -192,8 +192,10 @@ export function popularCalendario(eventos) { //Los arrays "sinHora" son para sta
 
 export function agregarEventoHandler(e) {
   e.preventDefault();
+
   window.location = '#top';
   const usuario = document.querySelector('.input__usuario').value;
+
   const hoy = new Date().toISOString()
   const nombre = e.target.nombre.value;
   const descripcion = e.target.descripcion.value;
@@ -260,7 +262,7 @@ export function agregarEventoHandler(e) {
 
 export function listenerAgregaEvento() {
   const agregarBtn = document.querySelectorAll('.calendario__agregar');
-  agregarBtn.forEach((btn) => btn.addEventListener('click', obtenerDateAgregarEvento)); 
+  agregarBtn.forEach((btn) => btn.addEventListener('click', obtenerDateAgregarEvento));
 }
 
 function editarEventoHandler(e) {
@@ -365,6 +367,12 @@ function noParticiparHandler(e) {
 }
 
 function agregaListenersEditar(eventoKey) {
+  const agregarBtn = document.querySelector('.calendario__agregar')
+  agregarBtn.addEventListener('click', validarUsuario)
+  
+  const submitBtn = document.querySelector('.agregar__form');
+  submitBtn.addEventListener('submit', agregarEventoHandler);
+
   const eliminarBtn = document.querySelector('.editar__boton--eliminar');
   eliminarBtn.setAttribute('data-key', eventoKey);
   eliminarBtn.addEventListener('click', eliminarHandler);
@@ -378,6 +386,15 @@ function agregaListenersEditar(eventoKey) {
   noParticiparBtn.addEventListener('click', noParticiparHandler);
 }
 
-const submitBtn = document.querySelector('.agregar__form');
-submitBtn.addEventListener('submit', agregarEventoHandler);
-
+function validarUsuario(e) {
+  const usuario = document.querySelector('.input__usuario').value;
+  const usuarioWarning = document.querySelector('.input__usuario-warning');
+  console.log(usuario)
+  if (!usuario) {
+    usuarioWarning.style.display = 'block';
+    //window.open()
+    return;
+  } else {
+    usuarioWarning.style.display = 'none';
+  }
+}

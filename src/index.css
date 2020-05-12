@@ -11,7 +11,18 @@ body {
 
 .input {
   margin-top: 3rem; }
+  .input__usuario {
+    margin-top: .5rem; }
+    .input__usuario-label {
+      font-size: 1rem;
+      padding-bottom: 1rem; }
+    .input__usuario-warning {
+      font-size: .8rem;
+      margin-top: .5rem;
+      color: red;
+      display: none; }
   .input__calendario {
+    margin-top: 3rem;
     grid-column: 1 / 2;
     grid-row: 1 / 2; }
 
@@ -23,11 +34,7 @@ body {
   grid-template-rows: 2rem 30rem;
   grid-template-columns: repeat(7, 1fr);
   grid-row: 2 / -1;
-  grid-column: 2 / -1;
-  /* 
-  &__item {
-
-  } */ }
+  grid-column: 2 / -1; }
   .calendario__nombre {
     font-size: 1rem;
     width: 70vw;
@@ -71,6 +78,11 @@ body {
     list-style: none;
     text-align: left;
     margin: .5rem 0 0 .5rem; }
+  .calendario__item--link:link, .calendario__item--link:visited {
+    text-decoration: none;
+    color: black; }
+  .calendario__item--link:hover {
+    color: gray; }
 
 .container {
   margin: 1.5rem 3rem;
@@ -88,7 +100,7 @@ body {
   z-index: 100;
   opacity: 0;
   visibility: hidden;
-  transition: all .5s; }
+  transition: all .1s; }
   .editar:target {
     opacity: 1;
     visibility: visible;
@@ -125,6 +137,25 @@ body {
       display: block;
       width: 80%;
       height: 7rem; }
+  .editar__boton:link, .editar__boton:visited {
+    text-decoration: none;
+    color: black; }
+  .editar__boton:hover {
+    color: gray; }
+  .editar__boton {
+    margin: 1rem 0 0 .5rem; }
+    .editar__boton--aceptar {
+      font-family: 'Segoe UI';
+      font-size: 1.1rem;
+      border: none;
+      background-color: white;
+      cursor: pointer; }
+    .editar__boton--noparticipar:hover {
+      color: red; }
+    .editar__boton--eliminar:hover {
+      color: red; }
+    .editar__boton--participar:hover {
+      color: green; }
 
 .header {
   border-bottom: 1px solid gray;

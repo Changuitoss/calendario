@@ -14,8 +14,9 @@
       </div>
     </div>
     <div class="input">
-      <label class="input__usuario-label" for="usuario">Nombre de usuario</label>
-      <input class="input__usuario" type="text" id="usuario">
+      <label class="input__usuario-label" for="usuario">Nombre de usuario:</label>
+      <input class="input__usuario" type="text" id="usuario" required>
+      <p class="input__usuario-warning">Ingresar nombre de usuario</p>
       <input type="date" class="input__calendario">
     </div>
     <div class="calendario">
@@ -79,11 +80,11 @@
             <label for="descripcion" class="editar__form--label">Descripcion:</label>
             <textarea type="text" class="editar__form--descripcion" id="descripcion" name="descripcion"></textarea>
           </div>
-          <button href="#top" type="submit" class="editar__boton--aceptar">Aceptar</button>
-          <a href="#" class="editar__boton--participar">Participar</a>
-          <a href="#" class="editar__boton--noparticipar">No participar</a>
-          <a href="#" class="editar__boton--eliminar">Eliminar</a>
-          <a href="#top" class="editar__boton--cancelar">Cancelar</a>
+          <button href="#top" type="submit" class="editar__boton editar__boton--aceptar">Aceptar</button>
+          <a href="#top" class="editar__boton editar__boton--participar">Participar</a>
+          <a href="#top" class="editar__boton editar__boton--noparticipar">No participar</a>
+          <a href="#top" class="editar__boton editar__boton--cancelar">Cancelar</a>
+          <a href="#top" class="editar__boton editar__boton--eliminar">Eliminar</a>
         </form>
         <div class="editar__participantes">
           <h4 class="editar__participantes--titulo">Participantes</h3>
