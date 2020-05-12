@@ -1,4 +1,4 @@
-import { obtenerKeysEventos, postEventoNuevo, postNuevoParticipante, obtenerEventoParticular } from "./api.js";
+import { obtenerKeysEventos, postEventoNuevo, postNuevoParticipante, removerParticipante, obtenerEventoParticular } from "./api.js";
 import { obtenerDateAgregarEvento, pad } from './servicios.js';
 
 export function creaCalendarioGrid(e, inicial) {
@@ -274,6 +274,7 @@ function editarEventoHandler(e) {
           description: descripcion, 
           attendees: participantes  } = evento;
   const creador = evento.creator.displayName;
+  const participantesArr = [];
   
   const tituloInput = document.querySelector('.editar__form--nombre');
   const inicioInput = document.querySelector('.editar__form--inicio');
@@ -290,6 +291,7 @@ function editarEventoHandler(e) {
 
   const aceptarBtn = document.querySelector('.editar__boton--aceptar');
   const participarBtn = document.querySelector('.editar__boton--participar');
+  const noParticiparBtn = document.querySelector('.editar__boton--noparticipar');
   const eliminarBtn = document.querySelector('.editar__boton--eliminar');
   
   tituloInput.value = titulo;
@@ -299,22 +301,36 @@ function editarEventoHandler(e) {
   descripcionInput.value = descripcion;
 
   participantes.forEach((participante) => {
+    participantesArr.push(participante.displayName);
     const participanteNombre = participante.displayName;
     const pParticipante = document.createElement('p');
     pParticipante.textContent = participanteNombre;
     participantesDOM.appendChild(pParticipante);
   });
 
-  if(usuario !== creador) {
+  if(usuario !== creador && !participantesArr.includes(usuario)) {
+    participarBtn.style.display = 'inline-block';
+    noParticiparBtn.style.display = 'none';
     eliminarBtn.style.display = 'none';
     aceptarBtn.style.display = 'none';
-    participarBtn.style.display = 'inline-block';
     tituloInput.setAttribute('disabled', true);
     inicioInput.setAttribute('disabled', true);
     finFechaInput.setAttribute('disabled', true);
     finHoraInput.setAttribute('disabled', true);
     descripcionInput.setAttribute('disabled', true);
-  } else {
+  } 
+  else if (usuario !== creador && participantesArr.includes(usuario)) {
+    participarBtn.style.display = 'none';
+    noParticiparBtn.style.display = 'inline-block';
+    eliminarBtn.style.display = 'none';
+    aceptarBtn.style.display = 'none';
+    tituloInput.setAttribute('disabled', true);
+    inicioInput.setAttribute('disabled', true);
+    finFechaInput.setAttribute('disabled', true);
+    finHoraInput.setAttribute('disabled', true);
+    descripcionInput.setAttribute('disabled', true);
+  }
+  else {
     participarBtn.style.display = 'none';
     eliminarBtn.style.display = 'inline-block';
     aceptarBtn.style.display = 'inline-block';
@@ -341,6 +357,13 @@ function participarHandler(e) {
   postNuevoParticipante(eventoKey, usuario);
 }
 
+function noParticiparHandler(e) {
+  const eventoKey = e.target.dataset.key;
+  const usuario = document.querySelector('.input__usuario').value;
+
+  removerParticipante(eventoKey, usuario);
+}
+
 function agregaListenersEditar(eventoKey) {
   const eliminarBtn = document.querySelector('.editar__boton--eliminar');
   eliminarBtn.setAttribute('data-key', eventoKey);
@@ -349,6 +372,10 @@ function agregaListenersEditar(eventoKey) {
   const participarBtn = document.querySelector('.editar__boton--participar');
   participarBtn.setAttribute('data-key', eventoKey);
   participarBtn.addEventListener('click', participarHandler);
+
+  const noParticiparBtn = document.querySelector('.editar__boton--noparticipar');
+  noParticiparBtn.setAttribute('data-key', eventoKey);
+  noParticiparBtn.addEventListener('click', noParticiparHandler);
 }
 
 const submitBtn = document.querySelector('.agregar__form');

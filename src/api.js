@@ -40,8 +40,21 @@ export function postNuevoParticipante(eventoKey, usuario) {
   localStorage.setItem(eventoKey, JSON.stringify(evento));
 }
 
+export function removerParticipante(eventoKey, usuario) {
+  const evento = JSON.parse(localStorage.getItem(eventoKey));
+  const participantesArray = evento.attendees;
+
+  participantesArray.forEach((participante) => {
+    if(participante.displayName == usuario) {
+      participantesArray.pop(participante);
+    }
+  });
+  evento.attendees = participantesArray;
+  localStorage.setItem(eventoKey, JSON.stringify(evento));
+}
+
 export function obtenerEventoParticular(key) {
   const evento = JSON.parse(localStorage.getItem(key));
-  console.log(evento)
+
   return evento;
 }
