@@ -215,3 +215,18 @@ body {
       display: block;
       width: 80%;
       height: 7rem; }
+  .agregar__boton:link, .agregar__boton:visited {
+    text-decoration: none;
+    color: black; }
+  .agregar__boton:hover {
+    color: gray; }
+  .agregar__boton {
+    margin: 1rem 0 0 .5rem; }
+    .agregar__boton--aceptar {
+      font-family: 'Segoe UI';
+      font-size: 1.1rem;
+      border: none;
+      background-color: white;
+      cursor: pointer; }
+    .agregar__boton--aceptar:hover {
+      color: green; }

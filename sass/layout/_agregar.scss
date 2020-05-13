@@ -60,7 +60,31 @@
       width: 80%;
       height: 7rem;
     }
+  }
 
+  &__boton:link,
+  &__boton:visited {
+    text-decoration: none;
+    color: black;
+  }
 
+  &__boton:hover {
+    color: gray;
+  }
+
+  &__boton {
+    margin: 1rem 0 0 .5rem;
+
+    &--aceptar {
+      font-family: 'Segoe UI';
+      font-size: 1.1rem;
+      border: none;
+      background-color: white;
+      cursor: pointer;
+    }
+
+    &--aceptar:hover {
+      color: green;
+    }
   }
 }
