@@ -1,4 +1,4 @@
-import { obtenerKeysEventos, postEventoNuevo, postNuevoParticipante, removerParticipante, obtenerEventoParticular } from "./api.js";
+import { obtenerKeysEventos, postEventoNuevo, postNuevoParticipante, removerParticipante, obtenerEventoParticular, obtenerFechaInicial, postEventoEditado } from "./api.js";
 import { obtenerDateAgregarEvento, pad } from './servicios.js';
 
 export function creaCalendarioGrid(e, inicial) {
@@ -125,7 +125,7 @@ export function creaCalendarioGrid(e, inicial) {
       numeroDiaDelMes--
     }
 
-    //obtenerEventos();
+    obtenerKeysEventos();
   }
   listenerAgregaEvento();
 }
@@ -164,7 +164,6 @@ export function popularCalendario(eventos) { //Los arrays "sinHora" son para sta
   const datesArrSinHora = datesArr.map((date) => new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()); 
   const eventosUl = document.querySelectorAll('ul');
   eventosUl.forEach((evento) => evento.innerHTML = '');
-  //console.log(eventos)
 
   eventos.forEach((entrada) => {
     const evento = JSON.parse(localStorage.getItem(entrada));
@@ -348,18 +347,48 @@ function noParticiparHandler(e) {
   removerParticipante(eventoKey, usuario);
 }
 
-function agregaListenersEditar(eventoKey) {
-  const eliminarBtn = document.querySelector('.editar__boton--eliminar');
-  eliminarBtn.setAttribute('data-key', eventoKey);
-  eliminarBtn.addEventListener('click', eliminarHandler);
+function editarEvento(e) {
+  e.preventDefault()
+  const eventoKey = e.target.dataset.key;
+  window.location = '#top';
+
+  const hoy = new Date().toISOString()
+  const nombre = e.target.nombre.value;
+  const descripcion = e.target.descripcion.value;
   
+  const inicioFecha = obtenerFechaInicial(eventoKey);  
+  const inicioHorario = e.target.inicio.value;
+  const inicioFinal = new Date(`${inicioFecha}T${inicioHorario}`).toISOString();
+
+  const finalFecha = new Date(e.target.finalfecha.value);
+  const finalHorario = e.target.finalhora.value;
+  const finalHora = finalHorario.split(':')[0];
+  const finalMinutos = finalHorario.split(':')[1];
+  const finalFinal = new Date(finalFecha.getFullYear(), 
+                              pad(finalFecha.getMonth()), 
+                              pad(finalFecha.getDate()),
+                              finalHora, 
+                              finalMinutos).toISOString();
+  
+  postEventoEditado(eventoKey, nombre, hoy, descripcion, inicioFinal, finalFinal);
+}
+
+function agregaListenersEditar(eventoKey) {
+  const botonesEditar = document.querySelectorAll('.editar__boton');
+  botonesEditar.forEach((boton) => boton.setAttribute('data-key', eventoKey));
+
+  const editarFormulario = document.querySelector('.editar__form');
+  editarFormulario.setAttribute('data-key', eventoKey);
+  editarFormulario.addEventListener('submit', editarEvento)
+
   const participarBtn = document.querySelector('.editar__boton--participar');
-  participarBtn.setAttribute('data-key', eventoKey);
   participarBtn.addEventListener('click', participarHandler);
 
   const noParticiparBtn = document.querySelector('.editar__boton--noparticipar');
-  noParticiparBtn.setAttribute('data-key', eventoKey);
   noParticiparBtn.addEventListener('click', noParticiparHandler);
+
+  const eliminarBtn = document.querySelector('.editar__boton--eliminar');
+  eliminarBtn.addEventListener('click', eliminarHandler);
 }
 
 const submitBtn = document.querySelector('.agregar__form');

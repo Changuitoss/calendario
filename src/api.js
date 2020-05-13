@@ -1,4 +1,5 @@
 import { popularCalendario } from './ui.js';
+import { pad }  from './servicios.js';
 
 
 export function obtenerKeysEventos() {  
@@ -57,4 +58,26 @@ export function obtenerEventoParticular(key) {
   const evento = JSON.parse(localStorage.getItem(key));
 
   return evento;
+}
+
+export function postEventoEditado(eventoKey, titulo, hoy, descripcion, inicioFinal, finalFinal) {
+  const evento = JSON.parse(localStorage.getItem(eventoKey));
+  evento.updated = hoy;
+  evento.summary = titulo;
+  evento.description = descripcion;
+  evento.start = inicioFinal;
+  evento.end = finalFinal;
+  
+  localStorage.setItem(eventoKey, JSON.stringify(evento));
+
+  obtenerKeysEventos();
+}
+
+export function obtenerFechaInicial(eventoKey) {
+  const evento = JSON.parse(localStorage.getItem(eventoKey));
+  const inicio = new Date(evento.start);
+  console.log(pad(inicio.getMonth()))
+  const fechaInicio = `${inicio.getFullYear()}-${pad(inicio.getMonth() + 1)}-${pad(inicio.getDate())}`;
+
+  return fechaInicio;
 }
