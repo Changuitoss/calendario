@@ -136,7 +136,7 @@ export function defaultFechaInput() {
   const hoyAnio = hoy.getFullYear();
   const hoyMes = hoy.getMonth() + 1;
   const hoyDia = hoy.getDate();
-  const hoyFecha = `${hoyAnio}-0${pad(hoyDia)}-0${pad(hoyMes)}`;
+  const hoyFecha = `${hoyAnio}-${pad(hoyMes)}-${pad(hoyDia)}`;
   const hoyFull = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate())
 
   dateInput.setAttribute('value', hoyFecha);
@@ -287,6 +287,7 @@ function editarEventoHandler(e) {
     participantesArr.push(participante.displayName);
     const participanteNombre = participante.displayName;
     const pParticipante = document.createElement('p');
+    pParticipante.classList.add('.editar__participantes--lista-item')
     pParticipante.textContent = participanteNombre;
     participantesDOM.appendChild(pParticipante);
   });

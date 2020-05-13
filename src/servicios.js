@@ -15,7 +15,7 @@ export function obtenerDateAgregarEvento(e) {
   return fechaSeleccionada
 }
 
-export function pad(n) { 
+export function pad(n) { //Agrega o saca el 0 (cero) de los valores de mes y dia.
   return n < 10 ? '0' + n : n;
 }
 
