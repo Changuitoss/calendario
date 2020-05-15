@@ -250,6 +250,7 @@ function editarEventoHandler(e) {
   const eventoKey = e.target.dataset.key;
   const evento = obtenerEventoParticular(eventoKey);
   const usuario = document.querySelector('.input__usuario').value;
+  const editarHeader = document.querySelector('.editar__titulo');
 
   const { summary: titulo, 
           start: inicio, 
@@ -289,6 +290,9 @@ function editarEventoHandler(e) {
     const pParticipante = document.createElement('p');
     pParticipante.classList.add('.editar__participantes--lista-item')
     pParticipante.textContent = participanteNombre;
+    if (participanteNombre === creador) {
+      pParticipante.classList.add('editar__creador');
+    }
     participantesDOM.appendChild(pParticipante);
   });
 
@@ -297,6 +301,7 @@ function editarEventoHandler(e) {
     noParticiparBtn.style.display = 'none';
     eliminarBtn.style.display = 'none';
     aceptarBtn.style.display = 'none';
+    editarHeader.style.display = 'none';
     tituloInput.setAttribute('disabled', true);
     inicioInput.setAttribute('disabled', true);
     finFechaInput.setAttribute('disabled', true);
@@ -308,6 +313,7 @@ function editarEventoHandler(e) {
     noParticiparBtn.style.display = 'inline-block';
     eliminarBtn.style.display = 'none';
     aceptarBtn.style.display = 'none';
+    editarHeader.style.display = 'none';
     tituloInput.setAttribute('disabled', true);
     inicioInput.setAttribute('disabled', true);
     finFechaInput.setAttribute('disabled', true);

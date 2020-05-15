@@ -156,6 +156,13 @@ body {
       color: red; }
     .editar__boton--participar:hover {
       color: green; }
+  .editar__creador {
+    background-color: #f1aaaa;
+    display: inline-block;
+    padding: .2rem;
+    padding-top: .1rem;
+    border-radius: 5px;
+    vertical-align: sub; }
 
 .header {
   border-bottom: 1px solid gray;
