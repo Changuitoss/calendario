@@ -1,6 +1,6 @@
 .calendario {
   text-align: center;
-  margin-top: 2rem;
+  margin: 2rem 0;
   display: grid;
   justify-self: start;
   grid-template-rows: 2rem 30rem;
@@ -26,7 +26,6 @@
     display: grid;
     width: 70vw;
     margin: 0 auto;
-    //row-gap: 1rem;
     column-gap: 0;
     grid-row: 2 / -1;
     grid-column: 2 / -1;
@@ -41,6 +40,10 @@
     height: 100%;
     border: 1px solid gray;
     overflow-y: auto;
+  }
+
+  &__hora {
+    font-size: .8rem;
   }
 
   &__agregar:link,

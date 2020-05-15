@@ -181,7 +181,7 @@ export function popularCalendario(eventos) { //Los arrays "sinHora" son para sta
       eventosItem.classList.add('calendario__item');
       const itemLink = document.createElement('a');
       itemLink.classList.add('calendario__item--link');
-      itemLink.textContent = `${horario}\u00A0\u00A0${titulo}`;
+      itemLink.innerHTML = `<span class="calendario__hora">${horario}</span>\u00A0\u00A0${titulo}`;
       itemLink.setAttribute('data-key', entrada)
       itemLink.setAttribute('data-hora', evento.start)
       itemLink.setAttribute('href', '#editar')
@@ -191,7 +191,7 @@ export function popularCalendario(eventos) { //Los arrays "sinHora" son para sta
       itemLink.addEventListener('click', editarEventoHandler); 
     }
   })
-  celdasArr.forEach((celda) => {
+  celdasArr.forEach((celda) => { // Ordena por horario
     const listaEventos = celda.querySelector('ul');
     const eventos = Array.from(celda.querySelectorAll('.calendario__item--link'));
     eventos.sort((a, b) => new Date(a.dataset.hora) > new Date(b.dataset.hora) ? 1 : -1);
@@ -201,7 +201,6 @@ export function popularCalendario(eventos) { //Los arrays "sinHora" son para sta
       eventosItem.classList.add('calendario__item');
       eventosItem.appendChild(evento)
       listaEventos.appendChild(eventosItem)});
-    console.log('eventos: ', eventos)
   })
 }
 

@@ -28,7 +28,7 @@ body {
 
 .calendario {
   text-align: center;
-  margin-top: 2rem;
+  margin: 2rem 0;
   display: grid;
   justify-self: start;
   grid-template-rows: 2rem 30rem;
@@ -62,6 +62,8 @@ body {
     height: 100%;
     border: 1px solid gray;
     overflow-y: auto; }
+  .calendario__hora {
+    font-size: .8rem; }
   .calendario__agregar:link, .calendario__agregar:visited {
     text-decoration: none;
     color: lightgreen; }
