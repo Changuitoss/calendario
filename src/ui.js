@@ -183,12 +183,25 @@ export function popularCalendario(eventos) { //Los arrays "sinHora" son para sta
       itemLink.classList.add('calendario__item--link');
       itemLink.textContent = `${horario}\u00A0\u00A0${titulo}`;
       itemLink.setAttribute('data-key', entrada)
+      itemLink.setAttribute('data-hora', evento.start)
       itemLink.setAttribute('href', '#editar')
       eventosItem.appendChild(itemLink);
       eventosUl.appendChild(eventosItem);
 
       itemLink.addEventListener('click', editarEventoHandler); 
     }
+  })
+  celdasArr.forEach((celda) => {
+    const listaEventos = celda.querySelector('ul');
+    const eventos = Array.from(celda.querySelectorAll('.calendario__item--link'));
+    eventos.sort((a, b) => new Date(a.dataset.hora) > new Date(b.dataset.hora) ? 1 : -1);
+    listaEventos.innerHTML = '';
+    eventos.forEach((evento) => {
+      const eventosItem = document.createElement('li');
+      eventosItem.classList.add('calendario__item');
+      eventosItem.appendChild(evento)
+      listaEventos.appendChild(eventosItem)});
+    console.log('eventos: ', eventos)
   })
 }
 
