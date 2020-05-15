@@ -174,11 +174,14 @@ export function popularCalendario(eventos) { //Los arrays "sinHora" son para sta
     if (index !== -1) {
       const eventosUl = celdasArr[index].querySelector('ul');
       const titulo = evento.summary;
+      const horarioHora = new Date(evento.start).getHours();
+      const horarioMinutos = new Date(evento.start).getMinutes();
+      const horario = `${pad(horarioHora)}:${pad(horarioMinutos)}`;
       const eventosItem = document.createElement('li');
       eventosItem.classList.add('calendario__item');
       const itemLink = document.createElement('a');
       itemLink.classList.add('calendario__item--link');
-      itemLink.textContent = titulo;
+      itemLink.textContent = `${horario}\u00A0\u00A0${titulo}`;
       itemLink.setAttribute('data-key', entrada)
       itemLink.setAttribute('href', '#editar')
       eventosItem.appendChild(itemLink);
