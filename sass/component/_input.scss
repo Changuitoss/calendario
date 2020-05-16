@@ -17,6 +17,16 @@
     }
   }
 
+  &__weekend {
+    margin-top: 1rem;
+    
+    &-label {
+      margin-top: 1rem;
+      font-size: 1rem;
+      padding-bottom: 1rem;
+    }
+  }
+
   &__calendario {
     margin-top: 3rem;
     grid-column: 1 / 2;

@@ -259,6 +259,12 @@ export function agregarEventoHandler(e) {
 export function listenerAgregaEvento() {
   const agregarBtn = document.querySelectorAll('.calendario__agregar');
   agregarBtn.forEach((btn) => btn.addEventListener('click', obtenerDateAgregarEvento)); 
+
+  const submitBtn = document.querySelector('.agregar__form');
+  submitBtn.addEventListener('submit', agregarEventoHandler);
+
+  const weekendBtn = document.querySelector('.input__weekend');
+  weekendBtn.addEventListener('change', mostrarFindes);
 }
 
 function editarEventoHandler(e) {
@@ -413,5 +419,27 @@ function agregaListenersEditar(eventoKey) {
   eliminarBtn.addEventListener('click', eliminarHandler);
 }
 
-const submitBtn = document.querySelector('.agregar__form');
-submitBtn.addEventListener('submit', agregarEventoHandler);
+
+
+function mostrarFindes(e) {
+  const mostrarFinde = e.target.checked;
+  const celdasArr = Array.from(document.querySelectorAll('.calendario__dia'));
+  const sabadosYDomingosTitulo = document.querySelectorAll('.calendario__nombre--item-fs');
+  const sabadosYDomingosArr = celdasArr.filter((dia) => {
+    const diaDeLaSemana = new Date(dia.dataset.fecha).getDay();
+    return diaDeLaSemana == 0 || diaDeLaSemana == 6;
+  })
+  
+  if(!mostrarFinde) {
+    sabadosYDomingosArr.forEach((dia) => {
+      dia.style.opacity = 0
+      dia.style.width = 0});
+    sabadosYDomingosTitulo.forEach((dia) => dia.style.opacity = 0);
+  } else {
+    sabadosYDomingosArr.forEach((dia) => {
+      dia.style.opacity = 1;
+      dia.style.width = '100%'});
+    sabadosYDomingosTitulo.forEach((dia) => dia.style.opacity = 1);
+  }
+}
+

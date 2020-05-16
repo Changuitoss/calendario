@@ -17,17 +17,21 @@
       <label class="input__usuario-label" for="usuario">Nombre de usuario:</label>
       <input class="input__usuario" type="text" id="usuario" required>
       <p class="input__usuario-warning">Ingresar nombre de usuario</p>
+      <div class="input__weekend">
+        <label for="weekend" class="input__weekend-label">Fines de semana?</label>
+        <input id="weekend" type="checkbox" class="input__weekend-check" checked>
+      </div>
       <input type="date" class="input__calendario">
     </div>
     <div class="calendario">
       <div class="calendario__nombre">
-        <span class="calendario__nombre--item">Domingo</span>
+        <span class="calendario__nombre--item calendario__nombre--item-fs">Domingo</span>
         <span class="calendario__nombre--item">Lunes</span>
         <span class="calendario__nombre--item">Martes</span>
         <span class="calendario__nombre--item">Miercoles</span>
         <span class="calendario__nombre--item">Jueves</span>
         <span class="calendario__nombre--item">Viernes</span>
-        <span class="calendario__nombre--item">Sabado</span>
+        <span class="calendario__nombre--item calendario__nombre--item-fs">Sabado</span>
       </div>
       <div class="calendario__grid">
         <!--  -->

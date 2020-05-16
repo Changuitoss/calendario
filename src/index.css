@@ -21,6 +21,12 @@ body {
       margin-top: .5rem;
       color: red;
       display: none; }
+  .input__weekend {
+    margin-top: 1rem; }
+    .input__weekend-label {
+      margin-top: 1rem;
+      font-size: 1rem;
+      padding-bottom: 1rem; }
   .input__calendario {
     margin-top: 3rem;
     grid-column: 1 / 2;
