@@ -1,5 +1,5 @@
 import { obtenerKeysEventos, postEventoNuevo, postNuevoParticipante, removerParticipante, obtenerEventoParticular, obtenerFechaInicial, postEventoEditado } from "./api.js";
-import { obtenerDateAgregarEvento, pad } from './servicios.js';
+import { obtenerDateAgregarEvento, pad, validaUsuario } from './servicios.js';
 
 export function creaCalendarioGrid(e, inicial) {
   if(!e) { //Setup inicial
@@ -268,91 +268,101 @@ export function listenerAgregaEvento() {
 }
 
 function editarEventoHandler(e) {
-  const eventoKey = e.target.dataset.key;
-  const evento = obtenerEventoParticular(eventoKey);
   const usuario = document.querySelector('.input__usuario').value;
-  const editarHeader = document.querySelector('.editar__titulo');
-
-  const { summary: titulo, 
-          start: inicio, 
-          end: final, 
-          description: descripcion, 
-          attendees: participantes  } = evento;
-  const creador = evento.creator.displayName;
-  const participantesArr = [];
   
-  const tituloInput = document.querySelector('.editar__form--nombre');
-  const inicioInput = document.querySelector('.editar__form--inicio');
-  const inicioValue = new Date(inicio);
-  const inicioHora = `${pad(inicioValue.getHours())}:${pad(inicioValue.getMinutes())}`
-  const finFechaInput = document.querySelector('.editar__form--final-fecha');
-  const finValue = new Date(final);
-  const finFecha = `${finValue.getFullYear()}-${pad(finValue.getMonth())}-${pad(finValue.getDate())}`;
-  const finHoraInput = document.querySelector('.editar__form--final-hora');
-  const finHora = `${pad(finValue.getHours())}:${pad(finValue.getMinutes())}`;
-  const descripcionInput = document.querySelector('.editar__form--descripcion');
-  const participantesDOM = document.querySelector('.editar__participantes-lista')
-  participantesDOM.innerHTML = '';
-
-  const aceptarBtn = document.querySelector('.editar__boton--aceptar');
-  const participarBtn = document.querySelector('.editar__boton--participar');
-  const noParticiparBtn = document.querySelector('.editar__boton--noparticipar');
-  const eliminarBtn = document.querySelector('.editar__boton--eliminar');
-  
-  tituloInput.value = titulo;
-  inicioInput.value = inicioHora;
-  finFechaInput.value = finFecha;
-  finHoraInput.value = finHora;
-  descripcionInput.value = descripcion;
-
-  participantes.forEach((participante) => {
-    participantesArr.push(participante.displayName);
-    const participanteNombre = participante.displayName;
-    const pParticipante = document.createElement('p');
-    pParticipante.classList.add('.editar__participantes--lista-item')
-    pParticipante.textContent = participanteNombre;
-    if (participanteNombre === creador) {
-      pParticipante.classList.add('editar__creador');
-    }
-    participantesDOM.appendChild(pParticipante);
-  });
-
-  if(usuario !== creador && !participantesArr.includes(usuario)) {
-    participarBtn.style.display = 'inline-block';
-    noParticiparBtn.style.display = 'none';
-    eliminarBtn.style.display = 'none';
-    aceptarBtn.style.display = 'none';
-    editarHeader.style.display = 'none';
-    tituloInput.setAttribute('disabled', true);
-    inicioInput.setAttribute('disabled', true);
-    finFechaInput.setAttribute('disabled', true);
-    finHoraInput.setAttribute('disabled', true);
-    descripcionInput.setAttribute('disabled', true);
-  } 
-  else if (usuario !== creador && participantesArr.includes(usuario)) {
-    participarBtn.style.display = 'none';
-    noParticiparBtn.style.display = 'inline-block';
-    eliminarBtn.style.display = 'none';
-    aceptarBtn.style.display = 'none';
-    editarHeader.style.display = 'none';
-    tituloInput.setAttribute('disabled', true);
-    inicioInput.setAttribute('disabled', true);
-    finFechaInput.setAttribute('disabled', true);
-    finHoraInput.setAttribute('disabled', true);
-    descripcionInput.setAttribute('disabled', true);
+  if (!usuario) {
+    validaUsuario(e);
+    return
   }
   else {
-    participarBtn.style.display = 'none';
-    eliminarBtn.style.display = 'inline-block';
-    aceptarBtn.style.display = 'inline-block';
-    tituloInput.removeAttribute('disabled');
-    inicioInput.removeAttribute('disabled');
-    finFechaInput.removeAttribute('disabled');
-    finHoraInput.removeAttribute('disabled');
-    descripcionInput.removeAttribute('disabled');
-  }
+    validaUsuario(e)
+    const eventoKey = e.target.dataset.key;
+    const evento = obtenerEventoParticular(eventoKey);
+    //const usuario = document.querySelector('.input__usuario').value;
+    const editarHeader = document.querySelector('.editar__titulo');
+  
+    const { summary: titulo, 
+            start: inicio, 
+            end: final, 
+            description: descripcion, 
+            attendees: participantes  } = evento;
+    const creador = evento.creator.displayName;
+    const participantesArr = [];
+    
+    const tituloInput = document.querySelector('.editar__form--nombre');
+    const inicioInput = document.querySelector('.editar__form--inicio');
+    const inicioValue = new Date(inicio);
+    const inicioHora = `${pad(inicioValue.getHours())}:${pad(inicioValue.getMinutes())}`
+    const finFechaInput = document.querySelector('.editar__form--final-fecha');
+    const finValue = new Date(final);
+    const finFecha = `${finValue.getFullYear()}-${pad(finValue.getMonth())}-${pad(finValue.getDate())}`;
+    const finHoraInput = document.querySelector('.editar__form--final-hora');
+    const finHora = `${pad(finValue.getHours())}:${pad(finValue.getMinutes())}`;
+    const descripcionInput = document.querySelector('.editar__form--descripcion');
+    const participantesDOM = document.querySelector('.editar__participantes-lista')
+    participantesDOM.innerHTML = '';
+  
+    const aceptarBtn = document.querySelector('.editar__boton--aceptar');
+    const participarBtn = document.querySelector('.editar__boton--participar');
+    const noParticiparBtn = document.querySelector('.editar__boton--noparticipar');
+    const eliminarBtn = document.querySelector('.editar__boton--eliminar');
+    
+    tituloInput.value = titulo;
+    inicioInput.value = inicioHora;
+    finFechaInput.value = finFecha;
+    finHoraInput.value = finHora;
+    descripcionInput.value = descripcion;
+  
+    participantes.forEach((participante) => {
+      participantesArr.push(participante.displayName);
+      const participanteNombre = participante.displayName;
+      const pParticipante = document.createElement('p');
+      pParticipante.classList.add('.editar__participantes--lista-item')
+      pParticipante.textContent = participanteNombre;
+      if (participanteNombre === creador) {
+        pParticipante.classList.add('editar__creador');
+      }
+      participantesDOM.appendChild(pParticipante);
+    });
+  
+    if(usuario !== creador && !participantesArr.includes(usuario)) {
+      participarBtn.style.display = 'inline-block';
+      noParticiparBtn.style.display = 'none';
+      eliminarBtn.style.display = 'none';
+      aceptarBtn.style.display = 'none';
+      editarHeader.style.display = 'none';
+      tituloInput.setAttribute('disabled', true);
+      inicioInput.setAttribute('disabled', true);
+      finFechaInput.setAttribute('disabled', true);
+      finHoraInput.setAttribute('disabled', true);
+      descripcionInput.setAttribute('disabled', true);
+    } 
+    else if (usuario !== creador && participantesArr.includes(usuario)) {
+      participarBtn.style.display = 'none';
+      noParticiparBtn.style.display = 'inline-block';
+      eliminarBtn.style.display = 'none';
+      aceptarBtn.style.display = 'none';
+      editarHeader.style.display = 'none';
+      tituloInput.setAttribute('disabled', true);
+      inicioInput.setAttribute('disabled', true);
+      finFechaInput.setAttribute('disabled', true);
+      finHoraInput.setAttribute('disabled', true);
+      descripcionInput.setAttribute('disabled', true);
+    }
+    else {
+      participarBtn.style.display = 'none';
+      eliminarBtn.style.display = 'inline-block';
+      aceptarBtn.style.display = 'inline-block';
+      tituloInput.removeAttribute('disabled');
+      inicioInput.removeAttribute('disabled');
+      finFechaInput.removeAttribute('disabled');
+      finHoraInput.removeAttribute('disabled');
+      descripcionInput.removeAttribute('disabled');
+    }
+  
+    agregaListenersEditar(eventoKey);
 
-  agregaListenersEditar(eventoKey);
+  }
 }
 
 function eliminarHandler(e) {

@@ -36,19 +36,23 @@ function clearEvento() {
   eventoInputs.forEach((evento) => evento.value = '');                                  
 }
 
-function validaUsuario(e) {
+export function validaUsuario(e) {
   const usuario = document.querySelector('.input__usuario').value;
   const sinUsuario = document.querySelector('.input__usuario-warning');
-
-  console.log(e.target)
   const agregarBtn = e.target;
+  console.log(agregarBtn.classList)
 
   if (!usuario) {
     agregarBtn.setAttribute('href', '#')
     sinUsuario.style.display = 'block';
   }
   else {
-    agregarBtn.setAttribute('href', '#agregar');
+    if (agregarBtn.classList.value == 'calendario__item--link') { //Chequea que clickeo el user, AGREGAR o EDITAR
+      agregarBtn.setAttribute('href', '#editar');
+    }
+    else {
+      agregarBtn.setAttribute('href', '#agregar');
+    }
     sinUsuario.style.display = 'none';
   }
 }
