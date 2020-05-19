@@ -1,3 +1,5 @@
+import { validaUsuario } from './ui.js'
+
 export function obtenerDateAgregarEvento(e) {
   const usuario = document.querySelector('.input__usuario').value;
   
@@ -36,37 +38,3 @@ function clearEvento() {
   eventoInputs.forEach((evento) => evento.value = '');                                  
 }
 
-export function validaUsuario(e) {
-  const usuario = document.querySelector('.input__usuario').value;
-  const sinUsuario = document.querySelector('.input__usuario-warning');
-  const agregarBtn = e.target;
-
-  if (!usuario) {
-    agregarBtn.setAttribute('href', '#')
-    sinUsuario.style.display = 'block';
-  }
-  else {
-    if (agregarBtn.classList.value == 'calendario__item--link') { //Chequea que clickeo el user, AGREGAR o EDITAR
-      agregarBtn.setAttribute('href', '#editar');
-    }
-    else {
-      agregarBtn.setAttribute('href', '#agregar');
-    }
-    sinUsuario.style.display = 'none';
-  }
-}
-
-export function validarFecha(inicio, final) {
-  const agregarWarning = document.querySelector('.agregar__warning');
-  console.log('inicio: ', inicio)
-  console.log('final: ', final)
-
-  if (inicio < final) {
-    agregarWarning.style.display = 'none';
-    return true;
-  }
-  else {
-    agregarWarning.style.display = 'inline-block';
-    return false;
-  }
-}

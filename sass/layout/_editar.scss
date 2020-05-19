@@ -103,4 +103,10 @@
     border-radius: 5px;
     vertical-align: sub;
   }
+
+  &__warning {
+    display: none;
+    margin-left: 2rem;
+    color: red;
+  }
 }

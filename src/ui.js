@@ -1,5 +1,5 @@
 import { obtenerKeysEventos, postEventoNuevo, postNuevoParticipante, removerParticipante, obtenerEventoParticular, obtenerFechaInicial, postEventoEditado } from "./api.js";
-import { obtenerDateAgregarEvento, pad, validaUsuario, validarFecha } from './servicios.js';
+import { obtenerDateAgregarEvento, pad } from './servicios.js';
 
 export function creaCalendarioGrid(e, inicial) {
   if(!e) { //Setup inicial
@@ -225,7 +225,7 @@ export function agregarEventoHandler(e) {
                               finalHora, 
                               finalMinutos).toISOString();
 
-  if (validarFecha(inicioFinal, finalFinal)) {
+  if (validarFecha(e, inicioFinal, finalFinal)) {
     window.location = '#top';
   
     const data = {
@@ -259,6 +259,37 @@ export function agregarEventoHandler(e) {
   }
 }
 
+function validarFecha(e, inicio, final) {
+  let warning;
+  console.log(e.target.classList.value)
+  //const editarWarning = document.querySelector('.editar__warning');
+  const agregar = document.querySelector('.agregar__form')
+  const editar = document.querySelector('.editar__form')
+  const formulario = e.target.classList.value; //Boolean
+
+  if (inicio <= final && formulario == 'agregar__form') {
+    warning = document.querySelector('.agregar__warning');
+    warning.style.display = 'none';
+    return true;
+  }
+  else if (inicio <= final && formulario == 'editar__form') {
+    warning = document.querySelector('.editar__warning');
+    warning.style.display = 'none';
+    return true;
+  }
+  else if (inicio > final && formulario == 'agregar__form') {
+    warning = document.querySelector('.agregar__warning');
+    warning.style.display = 'inline-block';
+    return false;
+  }
+  else {
+    warning = document.querySelector('.editar__warning');
+    warning.style.display = 'inline-block';
+    return false;
+  }
+  
+}
+
 export function listenerAgregaEvento() {
   const agregarBtn = document.querySelectorAll('.calendario__agregar');
   agregarBtn.forEach((btn) => btn.addEventListener('click', obtenerDateAgregarEvento)); 
@@ -281,8 +312,6 @@ function editarEventoHandler(e) {
     validaUsuario(e)
     const eventoKey = e.target.dataset.key;
     const evento = obtenerEventoParticular(eventoKey);
-    //console.log('evento: ', evento)
-    //const usuario = document.querySelector('.input__usuario').value;
     const editarHeader = document.querySelector('.editar__titulo');
   
     const { summary: titulo, 
@@ -290,6 +319,7 @@ function editarEventoHandler(e) {
             end: final, 
             description: descripcion, 
             attendees: participantes  } = evento;
+
     const creador = evento.creator.displayName;
     const participantesArr = [];
     
@@ -299,7 +329,7 @@ function editarEventoHandler(e) {
     const inicioHora = `${pad(inicioValue.getHours())}:${pad(inicioValue.getMinutes())}`
     const finFechaInput = document.querySelector('.editar__form--final-fecha');
     const finValue = new Date(final);
-    const finFecha = `${finValue.getFullYear()}-${pad(finValue.getMonth())}-${pad(finValue.getDate())}`;
+    const finFecha = `${finValue.getFullYear()}-${pad(finValue.getMonth() + 1)}-${pad(finValue.getDate())}`;
     const finHoraInput = document.querySelector('.editar__form--final-hora');
     const finHora = `${pad(finValue.getHours())}:${pad(finValue.getMinutes())}`;
     const descripcionInput = document.querySelector('.editar__form--descripcion');
@@ -314,6 +344,7 @@ function editarEventoHandler(e) {
     tituloInput.value = titulo;
     inicioInput.value = inicioHora;
     finFechaInput.value = finFecha;
+    console.log(finFecha)
     finHoraInput.value = finHora;
     descripcionInput.value = descripcion;
   
@@ -365,7 +396,26 @@ function editarEventoHandler(e) {
     }
   
     agregaListenersEditar(eventoKey);
+  }
+}
 
+export function validaUsuario(e) {
+  const usuario = document.querySelector('.input__usuario').value;
+  const sinUsuario = document.querySelector('.input__usuario-warning');
+  const agregarBtn = e.target;
+
+  if (!usuario) {
+    agregarBtn.setAttribute('href', '#')
+    sinUsuario.style.display = 'block';
+  }
+  else {
+    if (agregarBtn.classList.value == 'calendario__item--link') { //Chequea que clickeo el user, AGREGAR o EDITAR
+      agregarBtn.setAttribute('href', '#editar');
+    }
+    else {
+      agregarBtn.setAttribute('href', '#agregar');
+    }
+    sinUsuario.style.display = 'none';
   }
 }
 
@@ -392,7 +442,6 @@ function noParticiparHandler(e) {
 function editarEvento(e) {
   e.preventDefault()
   const eventoKey = e.target.dataset.key;
-  window.location = '#top';
 
   const hoy = new Date().toISOString()
   const nombre = e.target.nombre.value;
@@ -408,11 +457,14 @@ function editarEvento(e) {
   const finalMinutos = finalHorario.split(':')[1];
   const finalFinal = new Date(finalFecha.getFullYear(), 
                               pad(finalFecha.getMonth()), 
-                              pad(finalFecha.getDate()),
+                              pad(finalFecha.getDate() + 1),
                               finalHora, 
                               finalMinutos).toISOString();
   
-  postEventoEditado(eventoKey, nombre, hoy, descripcion, inicioFinal, finalFinal);
+  if (validarFecha(e, inicioFinal, finalFinal)) {
+    window.location = '#top';
+    postEventoEditado(eventoKey, nombre, hoy, descripcion, inicioFinal, finalFinal);
+  }
 }
 
 function agregaListenersEditar(eventoKey) {

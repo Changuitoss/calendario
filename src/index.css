@@ -175,6 +175,10 @@ body {
     padding-top: .1rem;
     border-radius: 5px;
     vertical-align: sub; }
+  .editar__warning {
+    display: none;
+    margin-left: 2rem;
+    color: red; }
 
 .header {
   border-bottom: 1px solid gray;
