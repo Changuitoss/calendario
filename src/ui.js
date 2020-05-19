@@ -168,27 +168,32 @@ export function popularCalendario(eventos) { //Los arrays "sinHora" son para sta
   eventos.forEach((entrada) => {
     const evento = JSON.parse(localStorage.getItem(entrada));
     const inicio = new Date(evento.start);
+    const final = new Date(evento.end);
     const inicioSinHora = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate()).getTime();
-    const index = datesArrSinHora.indexOf(inicioSinHora);
-    
-    if (index !== -1) {
-      const eventosUl = celdasArr[index].querySelector('ul');
-      const titulo = evento.summary;
-      const horarioHora = new Date(evento.start).getHours();
-      const horarioMinutos = new Date(evento.start).getMinutes();
-      const horario = `${pad(horarioHora)}:${pad(horarioMinutos)}`;
-      const eventosItem = document.createElement('li');
-      eventosItem.classList.add('calendario__item');
-      const itemLink = document.createElement('a');
-      itemLink.classList.add('calendario__item--link');
-      itemLink.innerHTML = `<span class="calendario__hora">${horario}</span>\u00A0\u00A0${titulo}`;
-      itemLink.setAttribute('data-key', entrada)
-      itemLink.setAttribute('data-hora', evento.start)
-      itemLink.setAttribute('href', '#editar')
-      eventosItem.appendChild(itemLink);
-      eventosUl.appendChild(eventosItem);
+    const finalSinHora = new Date(final.getFullYear(), final.getMonth(), final.getDate()).getTime();
+    const indexInicio = datesArrSinHora.indexOf(inicioSinHora);
+    const indexFinal = datesArrSinHora.indexOf(finalSinHora);
 
-      itemLink.addEventListener('click', editarEventoHandler); 
+    for (let i = indexInicio; i <= indexFinal; i++) {
+      if (indexInicio !== -1) {
+        const eventosUl = celdasArr[i].querySelector('ul');
+        const titulo = evento.summary;
+        const horarioHora = new Date(evento.start).getHours();
+        const horarioMinutos = new Date(evento.start).getMinutes();
+        const horario = `${pad(horarioHora)}:${pad(horarioMinutos)}`;
+        const eventosItem = document.createElement('li');
+        eventosItem.classList.add('calendario__item');
+        const itemLink = document.createElement('a');
+        itemLink.classList.add('calendario__item--link');
+        itemLink.innerHTML = `<span class="calendario__hora">${horario}</span>\u00A0\u00A0${titulo}`;
+        itemLink.setAttribute('data-key', entrada)
+        itemLink.setAttribute('data-hora', evento.start)
+        itemLink.setAttribute('href', '#editar')
+        eventosItem.appendChild(itemLink);
+        eventosUl.appendChild(eventosItem);
+  
+        itemLink.addEventListener('click', editarEventoHandler);
+      }
     }
   })
   celdasArr.forEach((celda) => { // Ordena por horario
@@ -261,11 +266,7 @@ export function agregarEventoHandler(e) {
 
 function validarFecha(e, inicio, final) {
   let warning;
-  console.log(e.target.classList.value)
-  //const editarWarning = document.querySelector('.editar__warning');
-  const agregar = document.querySelector('.agregar__form')
-  const editar = document.querySelector('.editar__form')
-  const formulario = e.target.classList.value; //Boolean
+  const formulario = e.target.classList.value;
 
   if (inicio <= final && formulario == 'agregar__form') {
     warning = document.querySelector('.agregar__warning');
@@ -287,7 +288,6 @@ function validarFecha(e, inicio, final) {
     warning.style.display = 'inline-block';
     return false;
   }
-  
 }
 
 export function listenerAgregaEvento() {
