@@ -40,7 +40,6 @@ export function validaUsuario(e) {
   const usuario = document.querySelector('.input__usuario').value;
   const sinUsuario = document.querySelector('.input__usuario-warning');
   const agregarBtn = e.target;
-  console.log(agregarBtn.classList)
 
   if (!usuario) {
     agregarBtn.setAttribute('href', '#')

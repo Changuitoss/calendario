@@ -278,6 +278,7 @@ function editarEventoHandler(e) {
     validaUsuario(e)
     const eventoKey = e.target.dataset.key;
     const evento = obtenerEventoParticular(eventoKey);
+    //console.log('evento: ', evento)
     //const usuario = document.querySelector('.input__usuario').value;
     const editarHeader = document.querySelector('.editar__titulo');
   
@@ -317,7 +318,7 @@ function editarEventoHandler(e) {
       participantesArr.push(participante.displayName);
       const participanteNombre = participante.displayName;
       const pParticipante = document.createElement('p');
-      pParticipante.classList.add('.editar__participantes--lista-item')
+      pParticipante.classList.add('editar__participantes--lista-item')
       pParticipante.textContent = participanteNombre;
       if (participanteNombre === creador) {
         pParticipante.classList.add('editar__creador');
@@ -442,13 +443,13 @@ function mostrarFindes(e) {
   
   if(!mostrarFinde) {
     sabadosYDomingosArr.forEach((dia) => {
-      dia.style.opacity = 0
-      dia.style.width = 0});
+      dia.classList.add('calendario__hidden');
+      });
     sabadosYDomingosTitulo.forEach((dia) => dia.style.opacity = 0);
   } else {
     sabadosYDomingosArr.forEach((dia) => {
-      dia.style.opacity = 1;
-      dia.style.width = '100%'});
+      dia.classList.remove('calendario__hidden');
+    });
     sabadosYDomingosTitulo.forEach((dia) => dia.style.opacity = 1);
   }
 }

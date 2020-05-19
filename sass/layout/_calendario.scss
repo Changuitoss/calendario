@@ -81,4 +81,9 @@
   &__item--link:hover {
     color: gray;
   } 
+
+  &__hidden {
+    opacity: 0;
+    width: 0;
+  }
 }

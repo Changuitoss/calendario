@@ -92,6 +92,9 @@ body {
     color: black; }
   .calendario__item--link:hover {
     color: gray; }
+  .calendario__hidden {
+    opacity: 0;
+    width: 0; }
 
 .container {
   margin: 1.5rem 3rem;

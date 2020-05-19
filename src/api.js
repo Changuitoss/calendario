@@ -76,7 +76,6 @@ export function postEventoEditado(eventoKey, titulo, hoy, descripcion, inicioFin
 export function obtenerFechaInicial(eventoKey) {
   const evento = JSON.parse(localStorage.getItem(eventoKey));
   const inicio = new Date(evento.start);
-  console.log(pad(inicio.getMonth()))
   const fechaInicio = `${inicio.getFullYear()}-${pad(inicio.getMonth() + 1)}-${pad(inicio.getDate())}`;
 
   return fechaInicio;
