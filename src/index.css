@@ -249,3 +249,7 @@ body {
       cursor: pointer; }
     .agregar__boton--aceptar:hover {
       color: green; }
+  .agregar__warning {
+    display: none;
+    margin-left: 2rem;
+    color: red; }

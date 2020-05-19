@@ -1,5 +1,5 @@
 import { obtenerKeysEventos, postEventoNuevo, postNuevoParticipante, removerParticipante, obtenerEventoParticular, obtenerFechaInicial, postEventoEditado } from "./api.js";
-import { obtenerDateAgregarEvento, pad, validaUsuario } from './servicios.js';
+import { obtenerDateAgregarEvento, pad, validaUsuario, validarFecha } from './servicios.js';
 
 export function creaCalendarioGrid(e, inicial) {
   if(!e) { //Setup inicial
@@ -206,7 +206,6 @@ export function popularCalendario(eventos) { //Los arrays "sinHora" son para sta
 
 export function agregarEventoHandler(e) {
   e.preventDefault();
-  window.location = '#top';
   const usuario = document.querySelector('.input__usuario').value;
   const hoy = new Date().toISOString()
   const nombre = e.target.nombre.value;
@@ -222,38 +221,42 @@ export function agregarEventoHandler(e) {
   const finalMinutos = finalHorario.split(':')[1];
   const finalFinal = new Date(finalFecha.getFullYear(), 
                               pad(finalFecha.getMonth()), 
-                              pad(finalFecha.getDate()),
+                              pad(finalFecha.getDate() + 1),
                               finalHora, 
                               finalMinutos).toISOString();
+
+  if (validarFecha(inicioFinal, finalFinal)) {
+    window.location = '#top';
   
-  const data = {
-    "id": 0,
-    "created": hoy,
-    "updated": hoy,
-    "summary": nombre,
-    "description": descripcion,
-    "color": "#F00",
-    "creator": {  
-      "id": 1,
-      "email": "test@test.com",
-      "displayName": usuario,
-      "self": true
-    },
-    "start": inicioFinal,
-    "end": finalFinal,
-    "attendees": [
-      {
+    const data = {
+      "id": 0,
+      "created": hoy,
+      "updated": hoy,
+      "summary": nombre,
+      "description": descripcion,
+      "color": "#F00",
+      "creator": {  
         "id": 1,
         "email": "test@test.com",
         "displayName": usuario,
-        "organizer": true,
-        "self": true,
-        "responseStatus": true
-      }
-    ]
+        "self": true
+      },
+      "start": inicioFinal,
+      "end": finalFinal,
+      "attendees": [
+        {
+          "id": 1,
+          "email": "test@test.com",
+          "displayName": usuario,
+          "organizer": true,
+          "self": true,
+          "responseStatus": true
+        }
+      ]
+    }
+  
+    postEventoNuevo(data);
   }
-
-  postEventoNuevo(data);
 }
 
 export function listenerAgregaEvento() {

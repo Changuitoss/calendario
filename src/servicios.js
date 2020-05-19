@@ -55,3 +55,18 @@ export function validaUsuario(e) {
     sinUsuario.style.display = 'none';
   }
 }
+
+export function validarFecha(inicio, final) {
+  const agregarWarning = document.querySelector('.agregar__warning');
+  console.log('inicio: ', inicio)
+  console.log('final: ', final)
+
+  if (inicio < final) {
+    agregarWarning.style.display = 'none';
+    return true;
+  }
+  else {
+    agregarWarning.style.display = 'inline-block';
+    return false;
+  }
+}
