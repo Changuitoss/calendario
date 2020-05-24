@@ -13,7 +13,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "empezar": "http-server",
+    "empezar": "httpserver",
     "compile:sass": "node-sass sass/main.scss src/index.css -w",
     "cypress-dev": "cypress open",
     "test-dev": "run-p empezar cypress-dev"

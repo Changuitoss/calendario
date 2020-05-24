@@ -344,7 +344,6 @@ function editarEventoHandler(e) {
     tituloInput.value = titulo;
     inicioInput.value = inicioHora;
     finFechaInput.value = finFecha;
-    console.log(finFecha)
     finHoraInput.value = finHora;
     descripcionInput.value = descripcion;
   
